@@ -1,0 +1,14 @@
+{
+  "name": "com.cod.playerinput",
+  "version": "0.0.1",
+  "displayName": "Player Input",
+  "unity": "",
+  "dependencies": {
+    "com.unity.cinemachine": "3.1.4",
+    "com.unity.inputsystem": "1.14.2"
+  },
+  "author": {
+    "name": "Marc"
+  },
+  "hideInEditor": false
+}
