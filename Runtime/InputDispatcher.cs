@@ -6,14 +6,14 @@ namespace Runtime.Scripts.PlayerInput
 {
     public class InputDispatcher : MonoBehaviour
     {
-        [SerializeField] private UnityEvent<InputValue> OnMoveEvent;
+        [SerializeField] private UnityEvent<Vector2> OnMoveEvent;
         [SerializeField] private UnityEvent OnInteractEvent;
         [SerializeField] private UnityEvent OnMouseClickEvent;
         [SerializeField] private UnityEvent OnActivateRadarEvent;
         
         private void OnMove(InputValue value)
         {
-            OnMoveEvent?.Invoke(value);
+            OnMoveEvent?.Invoke(value.Get<Vector2>());
         }
 
         private void OnInteract()
