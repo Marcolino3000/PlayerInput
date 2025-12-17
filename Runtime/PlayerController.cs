@@ -23,9 +23,9 @@ namespace Runtime.Scripts.PlayerInput
             OnInteractionTriggered?.Invoke();
         }
 
-        public void OnMove(InputValue value)
+        public void OnMove(Vector2 moveDirection)
         {
-            rb.linearVelocity = new Vector3(value.Get<Vector2>().x * speed, 0, value.Get<Vector2>().y * speed);
+            rb.linearVelocity = new Vector3(moveDirection.x * speed, 0, moveDirection.y * speed);
         }
     }
 }
