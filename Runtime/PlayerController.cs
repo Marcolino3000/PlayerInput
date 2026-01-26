@@ -7,7 +7,8 @@ namespace Runtime.Scripts.PlayerInput
     public class PlayerController : MonoBehaviour
     {
         public event Action OnInteractionTriggered;
-        public event Action<bool> OnMovementStateChanged;
+        public event Action<bool, MoveDirection> OnMovementStarted;
+        public event Action OnMovementEnded; 
         
         [SerializeField] private float speed = 30f;
         [SerializeField] private Rigidbody rb;
@@ -21,7 +22,6 @@ namespace Runtime.Scripts.PlayerInput
 
         public void OnInteract()
         {
-            // Debug.Log("Interact");
             OnInteractionTriggered?.Invoke();
         }
 
@@ -34,17 +34,27 @@ namespace Runtime.Scripts.PlayerInput
             {
                 if (isMoving)
                 {
-                    OnMovementStateChanged?.Invoke(isMoving);
-                    // Debug.Log("Movement Started");
+                    OnMovementStarted?.Invoke(isMoving, moveDirection.x < 0 ? MoveDirection.Left : MoveDirection.Right);
                 }
                 else
                 {
-                    OnMovementStateChanged?.Invoke(isMoving);
-                    // Debug.Log("Movement Ended");
+                    OnMovementEnded?.Invoke();
                 }
             }
             
             rb.linearVelocity = new Vector3(moveDirection.x * speed, 0, moveDirection.y * speed);
         }
+    }
+
+    public struct AnimationState
+    {
+        public bool IsWalking;
+        public MoveDirection MoveDirection;
+    }
+
+    public enum MoveDirection
+    {
+        Left,
+        Right
     }
 }
