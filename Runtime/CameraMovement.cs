@@ -9,7 +9,8 @@ namespace Runtime.Scripts.Animation
         [SerializeField] private float _duration;
         [SerializeField] private AnimationCurve _ease;
         [SerializeField] private Vector3 _dialogOffset;
-
+        [SerializeField] private bool toggleOnDialog = true;
+        
         private Vector3 _followOffset;
         private CinemachineFollow _follow;
         private bool _isInDialogMode;
@@ -21,8 +22,13 @@ namespace Runtime.Scripts.Animation
             _followOffset = _follow.FollowOffset; 
         }
     
-        private void ToggleDialogMode()
+        public void ToggleDialogMode(bool isDialogRunning)
         {
+            if (!toggleOnDialog)
+                return;
+
+            _isInDialogMode = isDialogRunning;
+            
             StartCoroutine(DoProgress());
         }
 
@@ -52,7 +58,8 @@ namespace Runtime.Scripts.Animation
         {
             if (GUI.Button(new Rect(500, 10, 140, 30), "Toggle Cam DialogMode"))
             {
-                ToggleDialogMode();
+                _isInDialogMode = !_isInDialogMode;
+                ToggleDialogMode(_isInDialogMode);
             }
         }
     }
