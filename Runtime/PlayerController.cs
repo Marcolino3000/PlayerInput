@@ -33,7 +33,12 @@ namespace Runtime.Scripts.PlayerInput
 
         public void OnMove(Vector2 moveDirection)
         {
-            if(!movementEnabled) return;
+            if(!movementEnabled)
+            {
+                rb.linearVelocity = Vector3.zero;
+                isMoving = false;
+                return;
+            }
             
             bool wasMoving = isMoving;
             isMoving = moveDirection.sqrMagnitude > 0.01f;
