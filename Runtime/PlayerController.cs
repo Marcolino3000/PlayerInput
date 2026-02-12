@@ -20,7 +20,13 @@ namespace Runtime.Scripts.PlayerInput
         {
             movementEnabled = value;
         }
-        
+
+        private void Update()
+        {
+            if(isMoving && !movementEnabled)
+                StopMoving();
+        }
+
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
