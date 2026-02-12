@@ -14,7 +14,13 @@ namespace Runtime.Scripts.PlayerInput
         [SerializeField] private Rigidbody rb;
 
         private bool isMoving;
+        private static bool movementEnabled = true;
 
+        public static void EnableMovement(bool value)
+        {
+            movementEnabled = value;
+        }
+        
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
@@ -27,6 +33,8 @@ namespace Runtime.Scripts.PlayerInput
 
         public void OnMove(Vector2 moveDirection)
         {
+            if(!movementEnabled) return;
+            
             bool wasMoving = isMoving;
             isMoving = moveDirection.sqrMagnitude > 0.01f;
 
