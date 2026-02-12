@@ -30,13 +30,21 @@ namespace Runtime.Scripts.PlayerInput
         {
             OnInteractionTriggered?.Invoke();
         }
+        
+        private void StopMoving()
+        {
+            rb.linearVelocity = Vector3.zero;
+            if (!isMoving) return;
+            
+            isMoving = false;
+            OnMovementEnded?.Invoke();
+        }
 
         public void OnMove(Vector2 moveDirection)
         {
             if(!movementEnabled)
             {
-                rb.linearVelocity = Vector3.zero;
-                isMoving = false;
+                StopMoving();
                 return;
             }
             
