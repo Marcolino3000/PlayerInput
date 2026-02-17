@@ -42,11 +42,8 @@ namespace Runtime.Scripts.Animation
             if (_follow != null && _follow.FollowTarget != null)
             {
                 Vector3 mainTargetPosition = _follow.FollowTarget.position;
-                Vector3 midpoint = (mainTargetPosition + secondCharacterPosition) * 0.5f;
-                float distance = Vector3.Distance(mainTargetPosition, secondCharacterPosition);
-
-                float offsetZ = Mathf.Max(_dialogOffset.z, -distance * 0.7f);
-                _dialogOffset = new Vector3(midpoint.x, midpoint.y, offsetZ);
+                float midpointX = (mainTargetPosition.x + secondCharacterPosition.x) * 0.5f;
+                _dialogOffset = new Vector3(midpointX, _dialogOffset.y, _dialogOffset.z);
             }
 
             StartCoroutine(DoProgress());
