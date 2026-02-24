@@ -10,6 +10,7 @@ namespace Runtime.Scripts.PlayerInput
         [SerializeField] private UnityEvent OnInteractEvent;
         [SerializeField] private UnityEvent OnMouseClickEvent;
         [SerializeField] private UnityEvent OnActivateRadarEvent;
+        [SerializeField] private UnityEvent OnToggleMenuEvent;
         
         private void OnMove(InputValue value)
         {
@@ -29,6 +30,11 @@ namespace Runtime.Scripts.PlayerInput
         private void OnClickObject()
         {
             OnMouseClickEvent?.Invoke();
+        }
+
+        private void OnToggleMenu()
+        {
+            OnToggleMenuEvent?.Invoke();
         }
         
     }
