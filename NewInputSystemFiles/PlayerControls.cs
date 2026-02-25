@@ -145,6 +145,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleTagebuch"",
+                    ""type"": ""Button"",
+                    ""id"": ""10e9a5cd-556e-4a2e-8302-18d2d7639c4b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -312,6 +321,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""680934d1-6d1b-444f-815f-2e9c926ebdb5"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleTagebuch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6da631a-5523-431e-88bf-9ebe8a3256d8"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleTagebuch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -349,6 +380,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_ActivateRadar = m_Gameplay.FindAction("ActivateRadar", throwIfNotFound: true);
         m_Gameplay_ClickObject = m_Gameplay.FindAction("ClickObject", throwIfNotFound: true);
         m_Gameplay_ToggleMenu = m_Gameplay.FindAction("ToggleMenu", throwIfNotFound: true);
+        m_Gameplay_ToggleTagebuch = m_Gameplay.FindAction("ToggleTagebuch", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
     }
@@ -438,6 +470,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_ActivateRadar;
     private readonly InputAction m_Gameplay_ClickObject;
     private readonly InputAction m_Gameplay_ToggleMenu;
+    private readonly InputAction m_Gameplay_ToggleTagebuch;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -473,6 +506,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/ToggleMenu".
         /// </summary>
         public InputAction @ToggleMenu => m_Wrapper.m_Gameplay_ToggleMenu;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ToggleTagebuch".
+        /// </summary>
+        public InputAction @ToggleTagebuch => m_Wrapper.m_Gameplay_ToggleTagebuch;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -517,6 +554,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleMenu.started += instance.OnToggleMenu;
             @ToggleMenu.performed += instance.OnToggleMenu;
             @ToggleMenu.canceled += instance.OnToggleMenu;
+            @ToggleTagebuch.started += instance.OnToggleTagebuch;
+            @ToggleTagebuch.performed += instance.OnToggleTagebuch;
+            @ToggleTagebuch.canceled += instance.OnToggleTagebuch;
         }
 
         /// <summary>
@@ -546,6 +586,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleMenu.started -= instance.OnToggleMenu;
             @ToggleMenu.performed -= instance.OnToggleMenu;
             @ToggleMenu.canceled -= instance.OnToggleMenu;
+            @ToggleTagebuch.started -= instance.OnToggleTagebuch;
+            @ToggleTagebuch.performed -= instance.OnToggleTagebuch;
+            @ToggleTagebuch.canceled -= instance.OnToggleTagebuch;
         }
 
         /// <summary>
@@ -726,6 +769,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleMenu(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleTagebuch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleTagebuch(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

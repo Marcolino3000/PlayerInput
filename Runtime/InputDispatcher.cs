@@ -11,6 +11,7 @@ namespace Runtime.Scripts.PlayerInput
         [SerializeField] private UnityEvent OnMouseClickEvent;
         [SerializeField] private UnityEvent OnActivateRadarEvent;
         [SerializeField] private UnityEvent OnToggleMenuEvent;
+        [SerializeField] private UnityEvent OnToggleTagebuchEvent;
         
         private void OnMove(InputValue value)
         {
@@ -36,6 +37,10 @@ namespace Runtime.Scripts.PlayerInput
         {
             OnToggleMenuEvent?.Invoke();
         }
-        
+
+        private void OnToggleTagebuch()
+        {
+            OnToggleTagebuchEvent?.Invoke();
+        }
     }
 }
