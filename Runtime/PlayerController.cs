@@ -15,6 +15,7 @@ namespace Runtime.Scripts.PlayerInput
 
         private bool isMoving;
         private static bool movementEnabled = true;
+        private MoveDirection lastMoveDirection;
 
         public static void EnableMovement(bool value)
         {
@@ -46,30 +47,39 @@ namespace Runtime.Scripts.PlayerInput
             OnMovementEnded?.Invoke();
         }
 
-        public void OnMove(Vector2 moveDirection)
+        public void OnMove(Vector2 direction)
         {
             if(!movementEnabled)
             {
                 StopMoving();
                 return;
             }
-            
+
+
+
             bool wasMoving = isMoving;
-            isMoving = moveDirection.sqrMagnitude > 0.01f;
+            isMoving = direction.sqrMagnitude > 0.01f;
+            var currentMoveDirection = direction.x < 0 ? MoveDirection.Left : MoveDirection.Right;
+
+            if (currentMoveDirection != lastMoveDirection)
+            {
+                isMoving = false;
+                lastMoveDirection = currentMoveDirection;
+            }
 
             if (isMoving != wasMoving)
             {
                 if (isMoving)
                 {
-                    OnMovementStarted?.Invoke(isMoving, moveDirection.x < 0 ? MoveDirection.Left : MoveDirection.Right);
+                    OnMovementStarted?.Invoke(isMoving, direction.x < 0 ? MoveDirection.Left : MoveDirection.Right);
                 }
                 else
                 {
                     OnMovementEnded?.Invoke();
                 }
             }
-            
-            rb.linearVelocity = new Vector3(moveDirection.x * speed, 0, moveDirection.y * speed);
+
+            rb.linearVelocity = new Vector3(direction.x * speed, 0, direction.y * speed);
         }
     }
 
