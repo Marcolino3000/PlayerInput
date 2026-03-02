@@ -363,6 +363,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Log"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6b7c3d28-bee0-4a0c-a855-6bdc09c1d1ea"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Log"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
