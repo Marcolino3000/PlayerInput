@@ -13,6 +13,7 @@ namespace Runtime.Scripts.PlayerInput
         [SerializeField] private UnityEvent OnToggleMenuEvent;
         [SerializeField] private UnityEvent OnToggleTagebuchEvent;
         [SerializeField] private UnityEvent OnToggleMapEvent;
+        [SerializeField] private UnityEvent OnToggleZweitesLog;
         
         private void OnMove(InputValue value)
         {
@@ -48,5 +49,12 @@ namespace Runtime.Scripts.PlayerInput
         {
             OnToggleMapEvent?.Invoke();
         }
+
+        private void OnLog()
+        {
+            Debug.Log("On toggle second log");
+            OnToggleZweitesLog?.Invoke();
+        }
     }
+    
 }

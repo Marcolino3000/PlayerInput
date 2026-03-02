@@ -154,6 +154,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Log"",
+                    ""type"": ""Button"",
+                    ""id"": ""c5e85585-6b43-42b7-8c99-3e2481b43a1f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -343,6 +352,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleTagebuch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6745a12-884e-47bc-b78c-f46280a0cc7f"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Log"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -381,6 +401,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_ClickObject = m_Gameplay.FindAction("ClickObject", throwIfNotFound: true);
         m_Gameplay_ToggleMenu = m_Gameplay.FindAction("ToggleMenu", throwIfNotFound: true);
         m_Gameplay_ToggleTagebuch = m_Gameplay.FindAction("ToggleTagebuch", throwIfNotFound: true);
+        m_Gameplay_Log = m_Gameplay.FindAction("Log", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
     }
@@ -471,6 +492,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_ClickObject;
     private readonly InputAction m_Gameplay_ToggleMenu;
     private readonly InputAction m_Gameplay_ToggleTagebuch;
+    private readonly InputAction m_Gameplay_Log;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -510,6 +532,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/ToggleTagebuch".
         /// </summary>
         public InputAction @ToggleTagebuch => m_Wrapper.m_Gameplay_ToggleTagebuch;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Log".
+        /// </summary>
+        public InputAction @Log => m_Wrapper.m_Gameplay_Log;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -557,6 +583,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleTagebuch.started += instance.OnToggleTagebuch;
             @ToggleTagebuch.performed += instance.OnToggleTagebuch;
             @ToggleTagebuch.canceled += instance.OnToggleTagebuch;
+            @Log.started += instance.OnLog;
+            @Log.performed += instance.OnLog;
+            @Log.canceled += instance.OnLog;
         }
 
         /// <summary>
@@ -589,6 +618,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleTagebuch.started -= instance.OnToggleTagebuch;
             @ToggleTagebuch.performed -= instance.OnToggleTagebuch;
             @ToggleTagebuch.canceled -= instance.OnToggleTagebuch;
+            @Log.started -= instance.OnLog;
+            @Log.performed -= instance.OnLog;
+            @Log.canceled -= instance.OnLog;
         }
 
         /// <summary>
@@ -776,6 +808,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleTagebuch(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Log" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLog(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
