@@ -50,8 +50,11 @@ namespace Runtime.Scripts.PlayerInput
 
         public void OnMove(Vector2 target, Coroutine moveCoroutine = null)
         {
-            StopCoroutine(moveByClickCoroutine);
-            moveByClickCoroutine = moveCoroutine;
+            if(moveCoroutine != null)
+            {
+                StopCoroutine(moveByClickCoroutine);
+                moveByClickCoroutine = moveCoroutine;
+            }
             
             if(!movementEnabled)
             {
@@ -62,8 +65,6 @@ namespace Runtime.Scripts.PlayerInput
             var previousMovingState = currentMovingState;
             currentMovingState = target.sqrMagnitude > 0.01f;
             var moveDirection = target.x < 0 ? MoveDirection.Left : MoveDirection.Right;
-
-            
             
             if (lastMoveDirection != moveDirection && currentMovingState) 
             {
