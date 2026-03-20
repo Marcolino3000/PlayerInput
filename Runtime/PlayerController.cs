@@ -13,9 +13,8 @@ namespace Runtime.Scripts.PlayerInput
         [SerializeField] private float speed = 30f;
         [SerializeField] private Rigidbody rb;
 
-        private bool currentMovingState;
+        private bool isMoving;
         private Coroutine moveByClickCoroutine;
-        private MoveDirection lastMoveDirection;
         private static bool movementEnabled = true;
 
         public static void EnableMovement(bool value)
@@ -25,7 +24,7 @@ namespace Runtime.Scripts.PlayerInput
 
         private void Update()
         {
-            if(currentMovingState && !movementEnabled)
+            if(isMoving && !movementEnabled)
                 StopMoving();
         }
 
@@ -42,53 +41,41 @@ namespace Runtime.Scripts.PlayerInput
         private void StopMoving()
         {
             rb.linearVelocity = Vector3.zero;
-            if (!currentMovingState) return;
+            if (!isMoving) return;
             
-            currentMovingState = false;
+            isMoving = false;
             OnMovementEnded?.Invoke();
         }
 
-        public void OnMove(Vector2 target, Coroutine moveCoroutine = null)
+        public void OnMove(Vector2 moveDirection)
         {
-            if(moveCoroutine != null)
-            {
-                StopCoroutine(moveByClickCoroutine);
-                moveByClickCoroutine = moveCoroutine;
-            }
+            // StopCoroutine(moveByClickCoroutine);
+            // moveByClickCoroutine = moveCoroutine;
+            // if (moveByClickCoroutine != null)+
+            
             
             if(!movementEnabled)
             {
                 StopMoving();
                 return;
             }
-
-            var previousMovingState = currentMovingState;
-            currentMovingState = target.sqrMagnitude > 0.01f;
-            var moveDirection = target.x < 0 ? MoveDirection.Left : MoveDirection.Right;
             
-            if (lastMoveDirection != moveDirection && currentMovingState) 
-            {
-                OnMovementStarted?.Invoke(previousMovingState, moveDirection);
-            }
+            bool wasMoving = isMoving;
+            isMoving = moveDirection.sqrMagnitude > 0.01f;
 
-            else
+            if (isMoving != wasMoving)
             {
-                if (currentMovingState != previousMovingState)
+                if (isMoving)
                 {
-                    if (currentMovingState)
-                    {
-                        OnMovementStarted?.Invoke(currentMovingState, moveDirection);
-                        lastMoveDirection = moveDirection;
-                    }
-                    else
-                    {
-                        OnMovementEnded?.Invoke();
-                    }
-                }    
+                    OnMovementStarted?.Invoke(isMoving, moveDirection.x < 0 ? MoveDirection.Left : MoveDirection.Right);
+                }
+                else
+                {
+                    OnMovementEnded?.Invoke();
+                }
             }
             
-            
-            rb.linearVelocity = new Vector3(target.x * speed, 0, target.y * speed);
+            rb.linearVelocity = new Vector3(moveDirection.x * speed, 0, moveDirection.y * speed);
         }
     }
 
