@@ -15,6 +15,7 @@ namespace Runtime.Scripts.PlayerInput
         [SerializeField] private float distanceThreshold;
         [SerializeField] private Rigidbody rb;
         [SerializeField] private float positionStuckTimeout;
+        [SerializeField] private bool debugLogs;
 
         private bool isMoving;
         private Coroutine moveCoroutine;
@@ -103,7 +104,10 @@ namespace Runtime.Scripts.PlayerInput
             else if (Time.time - lastPositionChangeTime > positionStuckTimeout)
             {
                 StopMoving();
-                Debug.LogWarning("Movement was stopped because Character was stuck in position");
+                
+                if(debugLogs)
+                    Debug.LogWarning("Movement was stopped because Character was stuck in position");
+                
                 return true;
             }
 
