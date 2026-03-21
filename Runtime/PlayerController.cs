@@ -14,6 +14,7 @@ namespace Runtime.Scripts.PlayerInput
         [SerializeField] private float speed = 30f;
         [SerializeField] private float distanceThreshold;
         [SerializeField] private Rigidbody rb;
+        [SerializeField] private float positionStuckTimeout;
 
         private bool isMoving;
         private Coroutine moveCoroutine;
@@ -45,7 +46,7 @@ namespace Runtime.Scripts.PlayerInput
         private void StopMoving()
         {
             rb.linearVelocity = Vector3.zero;
-            if (!isMoving) return;
+            // if (!isMoving) return;
             
             isMoving = false;
             OnMovementEnded?.Invoke();
@@ -56,24 +57,59 @@ namespace Runtime.Scripts.PlayerInput
             OnMove(direction);
         }
         
-        public IEnumerator MoveToTargetPosition(Vector2 targetPosition)
+        public IEnumerator MoveToTargetPositionCoroutine(Vector2 targetPosition)
         {
-            yield return MoveByPosition(targetPosition);
+            if(moveCoroutine != null)
+                StopCoroutine(moveCoroutine);
+
+            moveCoroutine = StartCoroutine(MoveByPosition(targetPosition));
+
+            yield return moveCoroutine;
+        }
+        
+        public void MoveToTargetPosition(Vector2 targetPosition)
+        {
+            if(moveCoroutine != null)
+                StopCoroutine(moveCoroutine);
+
+            moveCoroutine = StartCoroutine(MoveByPosition(targetPosition));
         }
 
         private IEnumerator MoveByPosition(Vector2 targetPosition)
         {
+            Vector3 lastPosition = transform.position;
+            float lastPositionChangeTime = Time.time;
+            
             while (Vector2.Distance(targetPosition, Position) > distanceThreshold)
             {
-                Vector3 direction = (targetPosition - Position);
-                Vector2 moveInput = new Vector2(direction.x, direction.z).normalized;
-                OnMove(moveInput);
+                Vector2 direction = (targetPosition - Position).normalized;
+                OnMove(direction);
+                
+                if (CheckIfStuck(ref lastPosition, ref lastPositionChangeTime)) 
+                    yield break;
+                
                 yield return null;
             }
-            
             StopMoving();
         }
-        
+
+        private bool CheckIfStuck(ref Vector3 lastPosition, ref float lastPositionChangeTime)
+        {
+            if ((transform.position - lastPosition).sqrMagnitude > 0.01f)
+            {
+                lastPosition = transform.position;
+                lastPositionChangeTime = Time.time;
+            }
+            else if (Time.time - lastPositionChangeTime > positionStuckTimeout)
+            {
+                StopMoving();
+                Debug.LogWarning("Movement was stopped because Character was stuck in position");
+                return true;
+            }
+
+            return false;
+        }
+
 
         private void OnMove(Vector2 moveDirection)
         {
