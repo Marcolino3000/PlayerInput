@@ -55,6 +55,12 @@ namespace Runtime.Scripts.PlayerInput
 
         public void MoveInDirection(Vector2 direction)
         {
+            if(moveCoroutine != null)
+            {
+                StopCoroutine(moveCoroutine);
+                moveCoroutine = null;
+            }
+            
             OnMove(direction);
         }
         
@@ -142,18 +148,6 @@ namespace Runtime.Scripts.PlayerInput
             rb.linearVelocity = new Vector3(moveDirection.x * speed, 0, moveDirection.y * speed);
             lastMoveDirection = direction;
         }
-    }
-
-    public struct AnimationState
-    {
-        public bool IsWalking;
-        public MoveDirection MoveDirection;
-    }
-
-    public enum MoveInputType
-    {
-        Direction,
-        Position
     }
 
     public enum MoveDirection
