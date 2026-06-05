@@ -7,7 +7,7 @@ namespace Runtime.Scripts.PlayerInput
     public class InputDispatcher : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField] private int secondsUntilGameReset;
+        public int secondsUntilGameReset;
         [SerializeField] private bool debugLogs;
         
         [SerializeField] private UnityEvent OnGameReset;
